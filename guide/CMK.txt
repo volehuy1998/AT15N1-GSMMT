@@ -1,0 +1,33 @@
+yum -y install epel-release
+
+yum -y install httpd
+systemctl start httpd
+systemctl enable httpd
+
+wget http://repo.openfusion.net/centos7-x86_64/openfusion-release-0.8-1.of.el7.noarch.rpm
+rpm -Uvh openfusion-release*rpm
+yum -y install freeradius-utils graphviz libdbi perl-IO-Zlib perl-Locale-Maketext-Simple rpm-build traceroute uuid xinetd dialog graphviz-gd
+
+yum -y install /mnt/hgfs/Shared/check-mk-raw-1.6.0p9-el7-38.x86_64.rpm
+systemctl start omd
+systemctl enable omd
+omd create monitoring
+omd start monitoring
+su - monitoring
+htpasswd -m ~/etc/htpasswd cmkadmin
+
+yum -y install postfix cyrus-sasl-plain mailx
+
+gedit /etc/postfix/sasl_passwd
+gedit /etc/postfix/main.cf
+
+
+
+[smtp.gmail.com]:587 volehuy.doantotnghiep@gmail.com:kaydzwujvrrkkraf
+
+relayhost = [smtp.gmail.com]:587
+smtp_use_tls = yes
+smtp_sasl_auth_enable = yes
+smtp_sasl_security_options = noanonymous
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_tls_CAfile = /etc/ssl/certs/ca-bundle.crt

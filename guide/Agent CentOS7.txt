@@ -1,0 +1,10 @@
+chmod +x /mnt/hgfs/Shared/check-mk-agent-1.6.0p9-1.noarch.rpm
+rpm -ivh /mnt/hgfs/Shared/check-mk-agent-1.6.0p9-1.noarch.rpm
+
+yum -y install xinetd
+systemctl start xinetd
+systemctl enable xinetd
+
+yum -y install net-tools
+
+vi /etc/xinetd.d/check_mk
